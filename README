@@ -6,13 +6,3 @@ To create a new place for your code, like something in JAVA, please create
 a new folder with the simple name for the language, like /java. Then, start
 throwing your code in there...let's go!
 
-
-Oh, if including this full module on a website and there is non-web executable
-code, then please add some .htaccess to the folders that shouldn't be 
-executed. That will provide some level of deny.
-
-This should be done like this in an .htaccess file:
-
-# This should be a file in the folder you want access denied to...
-DENY from all
-#END OF FILE
