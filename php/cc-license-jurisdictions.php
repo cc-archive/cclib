@@ -21,6 +21,17 @@
  * This is code that is used to generate jurisdictions in php.
  *
  */
+    // The next few lines allow for basic interfacing with standard
+    // CC website's handling of jurisdiction for jurisdiction shortname 
+    // and for future language support, aka, local language strings...
+    $jurisdiction   = $_REQUEST['jurisdiction'];
+    $lang           = $_REQUEST['lang'];
+
+    if ( empty($jurisdiction) && !empty($lang) )
+        $jurisdiction = $lang;
+
+
+
 
     $jurisdictions = 
         Array( 'generic' => Array( 'name' => 'Generic',

@@ -29,4 +29,58 @@ if ( ! CC_LIB )
 define('CC_LIB_PHP', CC_LIB . '/php');
 define('CC_LIB_JS', CC_LIB . '/js');
 
+require_once( CC_LIB_PHP . '/cc-license-jurisdictions.php' );
+
+    /**
+     * This code interacts with cc-tooltip.js and is responsible for
+     * generating tooltips simply in html.
+     */
+    function get_more_info ($msg, $img = 'information.png', $window_name = 'characteristic_help')
+    {
+        $info_text = '';
+        $class_text = '';
+        if ( !empty($img) ) {
+            $info_text = 
+                '<img src="' . $img . '" alt="info" class="info" />';
+            $class_text = 'infobox';
+        } else {
+            $info_text = '?';
+            $class_text = 'questionbox';
+        }
+
+        return "<span class=\"" . $class_text . 
+               "\" onmouseover=\"on_tooltip_html(event,'" . 
+               htmlspecialchars($msg) . 
+               "');\" onmouseout=\"hide_tip()\">" . $info_text . "</span>";
+    }
+
+    /**
+     * This code prints tooltip info and relies on cc-tooltip.js in an
+     * html file.
+     */
+    function print_more_info ($msg, $img = 'information.png', 
+                              $window_name = 'characteristic_help')
+    {
+        echo get_more_info($msg, $img, $window_name);
+    }
+
+    /**
+     * This gets tooltip javascript and is not standalone and is for part of
+     * another html element.
+     */
+    function get_tooltip_js ($msg)
+    {
+        return "class=\"question\" onmouseover=\"on_tooltip_html(event,'"
+                      . htmlspecialchars($msg) . 
+                      "');\" onmouseout=\"hide_tip()\"";
+    }
+
+    /**
+     * This actually prints out the tooltip javascript to html.
+     */
+    function print_tooltip_js ($msg, $url = '')
+    {
+        echo get_tooltip_js($msg, $url);
+    }
+
 ?>
