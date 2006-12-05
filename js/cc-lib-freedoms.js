@@ -44,59 +44,66 @@ CCLibFreedoms.prototype = {
                 if (this._sa_on) { this._sa_cond = !this._sa_cond; }
                 break;
         }
-  
+ 
+      try {
+
         if (!this._share) 
         {
             this._sa_cond = this._sa_on = this._nc_cond = this._nc_on = false;
     
-            // Element.classNames ('flg-connect-nc').set ("flg-pipe-off");
-            // Element.classNames ('flg-connect-sa').set ("flg-pipe-off");
-            // Element.classNames ('flg-connect-share').set ("flg-pipe-middle");
+            Element.classNames ('flg-connect-nc').set ("flg-pipe-off");
+            Element.classNames ('flg-connect-sa').set ("flg-pipe-off");
+            Element.classNames ('flg-connect-share').set ("flg-pipe-middle");
     
             if (!this._remix) {
-                // Element.classNames ('flg-connect-remix').set ("flg-pipe-middle");
+                Element.classNames ('flg-connect-remix').set ("flg-pipe-middle");
             } else {
-                // Element.classNames ('flg-connect-remix').set ("flg-pipe-on");
+                Element.classNames ('flg-connect-remix').set ("flg-pipe-on");
             }
     
         } else {
             this._nc_on = true;
     
-            // Element.classNames ('flg-connect-share').set ("flg-pipe-on");
+            Element.classNames ('flg-connect-share').set ("flg-pipe-on");
     
             if (this._nc_cond) {
-                // Element.classNames ('flg-connect-nc').set ("flg-pipe-on");
+                Element.classNames ('flg-connect-nc').set ("flg-pipe-on");
             } else {
-                // Element.classNames ('flg-connect-nc').set ("flg-pipe-middle");
+                Element.classNames ('flg-connect-nc').set ("flg-pipe-middle");
             }
     
             if (this._remix) {
                 this._sa_on = true;
       
                 if (this._sa_cond) {
-                    // Element.classNames ('flg-connect-sa').set ("flg-pipe-on");
+                    Element.classNames ('flg-connect-sa').set ("flg-pipe-on");
                 } else {
-                    // Element.classNames ('flg-connect-sa').set ("flg-pipe-middle");
+                    Element.classNames ('flg-connect-sa').set ("flg-pipe-middle");
                 }
       
-                // Element.classNames ('flg-connect-remix').set ("flg-pipe-on");
+                Element.classNames ('flg-connect-remix').set ("flg-pipe-on");
             } else {
                 this._sa_cond = this._sa_on = false;
 
-                // Element.classNames ('flg-connect-sa').set ("flg-pipe-off");
-                // Element.classNames ('flg-connect-remix').set ("flg-pipe-middle");
+                Element.classNames ('flg-connect-sa').set ("flg-pipe-off");
+                Element.classNames ('flg-connect-remix').set ("flg-pipe-middle");
             }
         }
+      } catch (err) {}
     
         this.results();
     },
 
     results: function () {
-        // some_license_selection(); // This is purely cosmetic.
+        try {
+            some_license_selection(); // This is purely cosmetic.
+        } catch (err) {}
         if (!this._share) {
             if (!this._remix) {
-                // Element.update ("flg-result", "");
-                // no_license_selection();
+                try {
+                    Element.update ("flg-result", "");
+                    no_license_selection();
+                } catch (err) {}
                 return;
             } else {
                 this.display('sampling', '1.0', 'Sampling', 'Remix');
@@ -132,14 +139,19 @@ CCLibFreedoms.prototype = {
         }
     },
     display: function (code, version, name, aka) {
-        // update_hack(code, version, name);
-        /* Element.update ("flg-result", "<img src='http://i.creativecommons.org/l/"+code+"/"+version+"/88x31.png'/><br/>" +
+        try {
+            update_hack(code, version, name);
+            Element.update ("flg-result", "<img src='http://i.creativecommons.org/l/"+code+"/"+version+"/88x31.png'/><br/>" +
         '<br /><i><a href="#get_the_code">Get the Code!</a></i>');  */
+        } catch (err) {}
+
+        /*
         document.write( "<p>code: " + code + "</p>" );
         document.write( "<p>version: " + version + "</p>" );
         document.write( "<p>name: " + name + "</p>" );
         document.write( "<p>aka: " + aka + "</p>" );
         document.write( "<hr />" );
+        */
     }
 }
 
