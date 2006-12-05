@@ -142,7 +142,7 @@ CCLibFreedoms.prototype = {
         try {
             update_hack(code, version, name);
             Element.update ("flg-result", "<img src='http://i.creativecommons.org/l/"+code+"/"+version+"/88x31.png'/><br/>" +
-        '<br /><i><a href="#get_the_code">Get the Code!</a></i>');  */
+            '<br /><i><a href="#get_the_code">Get the Code!</a></i>'); 
         } catch (err) {}
 
         /*
