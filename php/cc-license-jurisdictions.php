@@ -36,7 +36,8 @@
     $jurisdictions = 
         Array( 'generic' => Array( 'name' => 'Generic',
                               'url'  => 'http://creativecommons.org',
-                              'generic' => true ),
+                              'generic' => true,
+                              'sampling' => true),
                'ar' => Array( 'name' => 'Argentina',
                               'url'  => 'http://creativecommons.org/worldwide/ar/'),
                'au' => Array( 'name' => 'Australia',
@@ -46,7 +47,8 @@
                'be' => Array( 'name' => 'Belgium',
                               'url'  => 'http://creativecommons.org/worldwide/be/'),
                'br' => Array( 'name' => 'Brazil',
-                              'url'  => 'http://creativecommons.org/worldwide/br/'),
+                              'url'  => 'http://creativecommons.org/worldwide/br/',
+                              'sampling' => true),
                'bg' => Array( 'name' => 'Bulgaria',
                               'url'  => 'http://creativecommons.org/worldwide/bg/'),
                'ca' => Array( 'name' => 'Canada',
@@ -98,7 +100,8 @@
                'se' => Array( 'name' => 'Sweden',
                               'url'  => 'http://creativecommons.org/worldwide/se/'),
                'tw' => Array( 'name' => 'Taiwan',
-                              'url'  => 'http://www.creativecommons.org.tw'),
+                              'url'  => 'http://www.creativecommons.org.tw',
+                              'sampling' => true),
                'uk' => Array( 'name' => 'UK: England &amp; Wales',
                               'url'  => 'http://www.creativecommons.org.uk'),
                'scotland' =>
@@ -138,6 +141,9 @@ function print_jurisdictions_box( $jurisdiction = '', $lic_curr = '',
 <?php
     foreach ( $jurisdictions as $jkey => $jarray )
     {
+        if ( $lic_curr == 'sampling' && ! $jarray['sampling'] )
+            continue;
+
         $selected = '';
         if ( $jurisdiction == $jkey )
             $selected = ' selected="selected"';
