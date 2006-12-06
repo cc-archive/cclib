@@ -72,28 +72,34 @@
     function option_on (option) {
         var label_name = option + '-label';
 
-        $(option).disabled = false;
+        try {
+        
+            $(option).disabled = false;
 
-        if ( share_label_orig_class[label_name] )
-            $(label_name).className = share_label_orig_class[label_name];
+            if ( share_label_orig_class[label_name] )
+                $(label_name).className = share_label_orig_class[label_name];
 
-        if ( share_label_orig_color[label_name] )
-            $(label_name).style.color = share_label_orig_color[label_name];
-        else
-            $(label_name).style.color = 'black';
+            if ( share_label_orig_color[label_name] )
+                $(label_name).style.color = share_label_orig_color[label_name];
+            else
+                $(label_name).style.color = 'black';
+        } catch (err) {}
+
     }
 
     function option_off (option) {
         var label_name = option + '-label';
 
-        if ( $(label_name).className )
-            share_label_orig_class[label_name] = $(label_name).className;
+        try {
+            if ( $(label_name).className )
+                share_label_orig_class[label_name] = $(label_name).className;
 
-        share_label_orig_color[label_name] = $(label_name).style.color;
+            share_label_orig_color[label_name] = $(label_name).style.color;
 
-        $(option).disabled = true;
-        $(option).checked = false;
-        $(label_name).style.color = 'gray';
+            $(option).disabled = true;
+            $(option).checked = false;
+            $(label_name).style.color = 'gray';
+        } catch (err) {}
     }
 	
 	/**
@@ -103,10 +109,12 @@
 	function modify(obj) {
         warning_text = '';
 
-        share = $('share').checked;
-        remix = $('remix').checked;
-        nc = $('nc').checked;
-        sa = $('sa').checked;
+        try {
+            share = $('share').checked;
+            remix = $('remix').checked;
+            nc = $('nc').checked;
+            sa = $('sa').checked;
+        } catch (err) {}
 
         if ( share && remix )
         {
@@ -158,8 +166,8 @@
                 '<p class="alert">Check the bottom of your browser.</p>';
         } catch (err) {};
 
+        // in this hacked version, it just calls update_hack direct
         build_license_details();
-        // update();
 	}
 
 	
