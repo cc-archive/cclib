@@ -35,7 +35,7 @@ require_once( CC_LIB_PHP . '/cc-license-jurisdictions.php' );
      * This code interacts with cc-tooltip.js and is responsible for
      * generating tooltips simply in html.
      */
-    function get_more_info ($msg, $img = 'information.png', $window_name = 'characteristic_help')
+    function get_more_info ($msg, $img = 'images/information.png', $window_name = 'characteristic_help')
     {
         $info_text = '';
         $class_text = '';
@@ -58,7 +58,7 @@ require_once( CC_LIB_PHP . '/cc-license-jurisdictions.php' );
      * This code prints tooltip info and relies on cc-tooltip.js in an
      * html file.
      */
-    function print_more_info ($msg, $img = 'information.png', 
+    function print_more_info ($msg, $img = 'images/information.png', 
                               $window_name = 'characteristic_help')
     {
         echo get_more_info($msg, $img, $window_name);
