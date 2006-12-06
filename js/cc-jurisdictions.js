@@ -150,7 +150,7 @@
             document.write(j);
     } 
 
-    function print_jurisdictions_option (jurisdiction, lic_curr, js_on_change)
+    function print_jurisdictions_option (jurisdiction_code, lic_curr, js_on_change)
     {
         var output = '';
 
@@ -160,8 +160,13 @@
         output = '<select name="jurisdiction" id="jurisdiction" onchange="' + 
                  js_on_change + '">';
 
-        for (var j in jurisdictions_array) {
-           output += "<option value=\"" + j + "\">" + 
+        for (var j in jurisdictions_array) 
+        {
+            var selected = '';
+            if ( j == jurisdiction_code )
+                selected = ' selected="selected"';
+
+           output += "<option id=\"" + j + " \" value=\"" + j + "\"" + selected + ">" + 
                           jurisdictions_array[j]['name'] + "</option>\n";
         }
         output += '</select>';

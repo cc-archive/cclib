@@ -26,6 +26,8 @@
     // NOTE we have the object freedoms for dealing with freedom style choosing
     var share, remix, nc, sa;
 
+    var reset_jurisdiction_array = false;
+
     var license_array;
 
     var license_root_url        = 'http://creativecommons.org/licenses';
@@ -109,6 +111,12 @@
 	function modify(obj) {
         warning_text = '';
 
+
+        if ( reset_jurisdiction_array ) {
+            reset_jurisdiction_list();
+            reset_jurisdiction_array = false;
+        }
+
         try {
             share = $('share').checked;
             remix = $('remix').checked;
@@ -138,6 +146,18 @@
             option_off('nc');
             option_off('sa');
 
+            // This next little block checks to see which 
+            // jurisdictions support sampling and hides the ones
+            // that don't
+            // OH! You have to convert a list to an array object...
+            var jurisdiction_options = $A( $('jurisdiction').options );
+           jurisdiction_options.each( function(item) {
+               if ( ! jurisdictions_array[ item.value ]['sampling'] )
+                   item.style.display = 'none';
+            });
+
+           reset_jurisdiction_array = true;
+
         } else {
             // This is when nothing is selected
             option_on('share');
@@ -145,7 +165,6 @@
             option_off('nc');
             option_off('sa');
         } 
-        // results();
 
         try
         {
@@ -170,7 +189,37 @@
         build_license_details();
 	}
 
-	
+    /**
+     * This resets the jurisdiction selection menu options' styles
+     */
+    function reset_jurisdiction_list ()
+    {
+        var jurisdiction_options = $A( $('jurisdiction').options );
+        jurisdiction_options.each( function(item) {
+            item.style.display = 'block';
+        });
+
+    }
+    /**
+     * This is a hack to set the share value outside the modify for]
+     * use by freedoms license.
+     */
+    function set_share (value)
+    {
+        share = value;
+        modify();
+    }
+
+    /**
+     * This is a hack to set the remix value outside the modify for]
+     * use by freedoms license.
+     */
+    function set_remix (value)
+    {
+        remix = value;
+        modify();
+    }
+
     function comment_out (str)
     {
         return ("<!-- " + str + "-->");
