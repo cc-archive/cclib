@@ -91,6 +91,8 @@
                               'url'  => 'http://pe.creativecommons.org'),
                'pl' => Array( 'name' => 'Poland',
                               'url'  => 'http://creativecommons.pl'),
+               'pt' => Array( 'name' => 'Portugal',
+                              'url'  => 'http://creativecommons.org/worldwide/pt/'),
                'si' => Array( 'name' => 'Slovenia',
                               'url'  => 'http://creativecommons.si'),
                'za' => Array( 'name' => 'South Africa',
