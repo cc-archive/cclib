@@ -133,7 +133,7 @@
                'scotland' :
                       { 'name' : _('UK: Scotland'),
                         'url'  : 'http://www.creativecommons.org.uk',
-                        'version' : '2.5'},
+                        'version' : '2.5'}
                };
 
     /**
