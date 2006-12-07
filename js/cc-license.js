@@ -22,18 +22,21 @@
  *
  */
 
-	var by;
-	var nc;
-	var nd;
-	var sa;
-	var was;
 
-    var license_array						= new Array();
+    // NOTE we have the object freedoms for dealing with freedom style choosing
+    var share, remix, nc, sa;
+
+    var reset_jurisdiction_array = false;
+
+    var license_array;
 
     var license_root_url        = 'http://creativecommons.org/licenses';
     var license_version         = '2.5';
 
     var warning_text            = '';
+
+    var label_orig_class        = Array;
+    var label_orig_color        = Array;
 
     var share_label_orig_class  = '';
     var share_label_orig_color  = '';
@@ -43,24 +46,16 @@
 	 */
 	function init() {
 		/* default: by */
-		by = true;
-		nc = false;
-		nd = false;
-		sa = false;
-		
-        if ( $("mod") && $("com") ) {
-		    $("mod").checked = true;
-		    $("com").checked = true;
+	
+        
+        share = true;
+        remix = true;
+        nc    = false;
+        sa    = false;
+        if ( $("share") && $("remix") ) {
+		    $("share").checked = true;
+		    $("remix").checked = true;
         }
-
-		// no_share();
-        if ( $("share") ) {
-            $("share").disabled = false;
-            share_label_orig_class = $('share-label').className;
-            share_label_orig_color = $('share-label').style.color;
-        }
-		
-		was = false;
 	}
 	
 	/**
@@ -71,6 +66,43 @@
 		$("share").disabled = true;
 		$("share").checked = false;
 	}
+
+    /**
+     * TODO: Something here is broken! Please fix so we are really
+     * getting the classnames!
+     */
+    function option_on (option) {
+        var label_name = option + '-label';
+
+        try {
+        
+            $(option).disabled = false;
+
+            if ( share_label_orig_class[label_name] )
+                $(label_name).className = share_label_orig_class[label_name];
+
+            if ( share_label_orig_color[label_name] )
+                $(label_name).style.color = share_label_orig_color[label_name];
+            else
+                $(label_name).style.color = 'black';
+        } catch (err) {}
+
+    }
+
+    function option_off (option) {
+        var label_name = option + '-label';
+
+        try {
+            if ( $(label_name).className )
+                share_label_orig_class[label_name] = $(label_name).className;
+
+            share_label_orig_color[label_name] = $(label_name).style.color;
+
+            $(option).disabled = true;
+            $(option).checked = false;
+            $(label_name).style.color = 'gray';
+        } catch (err) {}
+    }
 	
 	/**
 	 * Main logic
@@ -79,40 +111,63 @@
 	function modify(obj) {
         warning_text = '';
 
+
+        if ( reset_jurisdiction_array ) {
+            reset_jurisdiction_list();
+            reset_jurisdiction_array = false;
+        }
+
+        try {
+            share = $('share').checked;
+            remix = $('remix').checked;
+            nc = $('nc').checked;
+            sa = $('sa').checked;
+        } catch (err) {}
+
+        if ( share && remix )
+        {
+            option_on('share');
+            option_on('remix');
+            option_on('nc');
+            option_on('sa');
+
+        }
+        else if ( share && !remix )
+        {
+            option_on('share');
+            option_on('remix');
+            option_on('nc');
+            option_off('sa');
+        }
+        else if ( !share && remix )
+        {
+            option_on('share');
+            option_on('remix');
+            option_off('nc');
+            option_off('sa');
+
+            // This next little block checks to see which 
+            // jurisdictions support sampling and hides the ones
+            // that don't
+            // OH! You have to convert a list to an array object...
+            var jurisdiction_options = $A( $('jurisdiction').options );
+           jurisdiction_options.each( function(item) {
+               if ( ! jurisdictions_array[ item.value ]['sampling'] )
+                   item.style.display = 'none';
+            });
+
+           reset_jurisdiction_array = true;
+
+        } else {
+            // This is when nothing is selected
+            option_on('share');
+            option_on('remix');
+            option_off('nc');
+            option_off('sa');
+        } 
+
         try
         {
-
-		if (obj.id == "mod") {
-			if (obj.checked) {
-				$('share').disabled = false;
-                $('share-label').className = share_label_orig_class;
-                $('share-label').style.color = share_label_orig_color;
-                
-				if (was){
-					 $('share').checked = true;
-					 sa = true;
-				}
-				
-				nd = false;
-			} else {
-                $('share-label').style.color = 'gray'
-				
-				/* remember if the user wanted to share */
-				$('share').checked ? was = true : was = false;
-
-				no_share();
-			
-				nd = true;
-			}
-		}
-		
-		if (obj.id == "com") {
-			obj.checked ? nc = false : nc = true;
-		}
-		
-		if (obj.id == "share") {
-			obj.checked ? sa = true : sa = false;
-		}
 
         if (obj.id == "using_myspace")
         {
@@ -130,10 +185,41 @@
                 '<p class="alert">Check the bottom of your browser.</p>';
         } catch (err) {};
 
-        update();
+        // in this hacked version, it just calls update_hack direct
+        build_license_details();
 	}
 
-	
+    /**
+     * This resets the jurisdiction selection menu options' styles
+     */
+    function reset_jurisdiction_list ()
+    {
+        var jurisdiction_options = $A( $('jurisdiction').options );
+        jurisdiction_options.each( function(item) {
+            item.style.display = 'block';
+        });
+
+    }
+    /**
+     * This is a hack to set the share value outside the modify for]
+     * use by freedoms license.
+     */
+    function set_share (value)
+    {
+        share = value;
+        modify();
+    }
+
+    /**
+     * This is a hack to set the remix value outside the modify for]
+     * use by freedoms license.
+     */
+    function set_remix (value)
+    {
+        remix = value;
+        modify();
+    }
+
     function comment_out (str)
     {
         return ("<!-- " + str + "-->");
@@ -328,7 +414,6 @@
 
         license_array['jurisdiction'] = 
             jurisdictions_array[current_jurisdiction]['name'];
-
         license_array['generic'] = 
             jurisdictions_array[current_jurisdiction]['generic'];
 
@@ -356,43 +441,58 @@
         if ( ! license_array['version'] )
             license_array['version'] = license_version;
     }
+
+    function no_license_selection () {
+        $('license_selected').style.display = 'none';
+    }
+
+    function some_license_selection () {
+        $('license_selected').style.display = 'block';
+    }
     
     function build_license_details ()
     {
-        /* BY */
-		if ((!nd) && (!nc) && (!sa)) {
-		    license_array['code'] = "by"; 
-            license_array['full_name'] = "Attribution"; 
-        }
-		
-        /* BY-SA */
-		else if ((!nd) && (!nc) && ( sa)) {
-		    license_array['code'] = "by-sa"; 
-            license_array['full_name'] = "Attribution-ShareAlike";
-        }
-		
-        /* BY-ND */
-		else if (( nd) && (!nc) && (!sa)) {
-		    license_array['code'] = "by-nd"; 
-            license_array['full_name'] = "Attribution-NoDerivatives"; 
-        }
-		
-        /* BY-NC */
-		else if ((!nd) && ( nc) && (!sa)) {
-		    license_array['code'] = "by-nc"; 
-            license_array['full_name'] = "Attribution-NonCommercial";
-        }
-		
-        /* BY-NC-SA */
-		else if ((!nd) && ( nc) && ( sa)) {
-	        license_array['code'] = "by-nc-sa"; 
-            license_array['full_name'] = "Attribution-NonCommercial-ShareAlike"; 
-        }
-		
-        /* BY-NC-ND */
-		else if (( nd) && ( nc) && (!sa)) {
-		    license_array['code'] = "by-nc-nd"; 
-            license_array['full_name'] = "Attribution-NonCommercial-NoDerivatives"; 
+        try {
+            some_license_selection(); // This is purely cosmetic.
+        } catch (err) {}
+
+        if (!share) {
+            if (!remix) {
+                try {
+                    no_license_selection();
+                } catch (err) {}
+                return;
+            } else {
+                update_hack('sampling', '1.0', 'Sampling', 'Remix');
+            }
+        } else {
+            if (!remix) {
+                if (nc) {
+                    update_hack('by-nc-nd', '2.5', 
+                                 'Attribution-NonCommercial-NoDerivs', 
+                                 'Share:NC:ND');
+                } else {
+                    update_hack('by-nd', '2.5', 'Attribution-NoDerivs', 
+                                 'Share:ND');
+                }
+            } else {
+                if (nc) {
+                    if (sa) {
+                        update_hack('by-nc-sa', '2.5', 
+                                     'Attribution-NonCommercial-ShareAlike', 
+                                     'Remix&Share:NC:SA');
+                    } else {
+                        update_hack('by-nc', '2.5', 
+                                     'Attribution-NonCommercial', 
+                                     'Remix&Share:NC');
+                    }
+                } else if (sa) {
+                    update_hack('by-sa', '2.5', 'Attribution-ShareAlike', 
+                                 'Remix&Share:SA');
+                } else {
+                    update_hack('by', '2.5', 'Attribution', 'Remix&Share');
+                }
+            }
         }
     }
 
