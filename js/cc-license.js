@@ -510,7 +510,7 @@
 	function build_license_array () 
     {
         // the following is global and we want to reset it definitely...
-        license_array = Array;
+        license_array = new Array();
 
         build_jurisdictions();
         build_license_details();
