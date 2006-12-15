@@ -173,7 +173,7 @@
         {
             $('myspace_style').style.display = 'block';
             $('myspace_position').style.display = 'block';
-        } else if ( obj.id == 'using_webpage' ) 
+        } else if ( obj.id == 'using_webpage' || obj.id == 'using_youtube' ) 
         {
             $('myspace_style').style.display = 'none';
             $('myspace_position').style.display = 'none';
@@ -531,19 +531,30 @@
         return true;
     }
 
+    function get_comment_code (msg)
+    {
+        if ( ! msg )
+            msg = "Creative Commons License";
+        
+        return "<!-- " + msg + " -->\n";
+    }
+
     /**
      * This builds our custom html license code using various refactored 
      * functions for handling all the nastiness...
      */
     function output_license_html ()
     {
-		var output = '<a rel="license" href="' + license_array['url'] + '"><img alt="Creative Commons License" border="0" src="' + license_array['img'] + '" class="cc-button"/></a><div class="cc-info">' + license_array['text'] + '</div>';
+		var output = get_comment_code() + '<a rel="license" href="' + license_array['url'] + '"><img alt="Creative Commons License" border="0" src="' + license_array['img'] + '" class="cc-button"/></a><div class="cc-info">' + license_array['text'] + '</div>';
 
         try {
             if ( $F('using_myspace') )
             {
 		        output = '<style type="text/css">body { padding-bottom: 50px;} div.cc-bar { width:100%; height: 40px; ' + position() + ' bottom: 0px; left: 0px; background:url(http://mirrors.creativecommons.org/myspace/'+ style() +') repeat-x; } img.cc-button { float: left; border:0; margin: 5px 0 0 15px; } div.cc-info { float: right; padding: 0.3%; width: 400px; margin: auto; vertical-align: middle; font-size: 90%;} </style> <div class="cc-bar">' + output + '</div>';
+            } else if ( $F('using_youtube') ) {
+                output = license_array['url'];
             }
+
         } catch (err) {}
 
         insert_html( warning_text + output, 'license_example');
@@ -563,7 +574,7 @@
         // our insert_html function also does some modifications on 
         var output = output_license_html();
         if ( $('result') )
-		    $('result').value = "<!--Creative Commons License-->\n" + output;
+		    $('result').value = output;
     }
 
     function update_hack(code, version, full_name)
@@ -583,7 +594,7 @@
         // our insert_html function also does some modifications on 
         var output = output_license_html();
         if ( $('result') )
-		    $('result').value = "<!--Creative Commons License-->\n" + output;
+		    $('result').value = output;
 
     }
 
