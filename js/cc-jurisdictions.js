@@ -123,6 +123,10 @@
                'es' : { 'name' : _('Spain'),
                         'url'  : 'http://es.creativecommons.org/',
                         'version' : '2.5'},
+               'scotland' :
+                      { 'name' : _('UK: Scotland'),
+                        'url'  : 'http://www.creativecommons.org.uk',
+                        'version' : '2.5'},
                'se' : { 'name' : _('Sweden'),
                         'url'  : 'http://creativecommons.org/worldwide/se/',
                         'version' : '2.5'},
@@ -135,11 +139,7 @@
                         'version' : '2.0'},
                'us' : { 'name' : _('United States'),
                         'url'  : 'http://creativecommons.org/worldwide/us/',
-                        'version' : '3.0'},
-               'scotland' :
-                      { 'name' : _('UK: Scotland'),
-                        'url'  : 'http://www.creativecommons.org.uk',
-                        'version' : '2.5'}
+                        'version' : '3.0'}
                };
 
     /**
