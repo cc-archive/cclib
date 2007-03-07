@@ -52,6 +52,7 @@
         remix = true;
         nc    = false;
         sa    = false;
+        nc_ad = true;
         if ( $("share") && $("remix") ) {
 		    $("share").checked = true;
 		    $("remix").checked = true;
@@ -101,6 +102,7 @@
             $(option).disabled = true;
             $(option).checked = false;
             $(label_name).style.color = 'gray';
+
         } catch (err) {}
     }
 	
@@ -121,7 +123,9 @@
             share = $('share').checked;
             remix = $('remix').checked;
             nc = $('nc').checked;
+            nc_ad = $('nc-ad-allow').checked ? true : false;
             sa = $('sa').checked;
+			
         } catch (err) {}
 
         if ( share && remix )
@@ -165,7 +169,14 @@
             option_off('nc');
             option_off('sa');
         } 
-
+				
+				// display advertising usage options
+				if (!nc) {
+					$('nc-ad').style.display = "none";
+				} else {
+				  $('nc-ad').style.display = "block";
+				}
+				
         try
         {
 
@@ -350,7 +361,11 @@
                 '">' + domain + '</a>.' + "\n";
             use_namespace_cc = true;
         }
-
+				
+				if (nc && nc_ad) {
+					license_text += 'This work may be used in advertising.';
+				}
+				
         } catch (err) {}
 
         // The main bit of text including or not, jurisdiction love
