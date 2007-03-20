@@ -83,4 +83,29 @@ require_once( CC_LIB_PHP . '/cc-license-jurisdictions.php' );
         echo get_tooltip_js($msg, $url);
     }
 
+    if ( !function_exists( 'gettext' ) )
+    {
+
+        // alias to gettext and what we prefer
+        function _($t)
+        {
+            return $t;
+        }
+
+        // call for gettext plurals
+        function ngettext($t1,$t2,$num)
+        {
+            return $num == 1 ? $t1 : $t2;
+        }
+
+        function bindtextdomain()
+        {
+        }
+
+        function textdomain()
+        {
+        }
+
+    }
+
 ?>
