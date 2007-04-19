@@ -54,7 +54,7 @@
                'cl' : { 'name' : _('Chile'),
                         'url'  : 'http://creativecommons.cl',
                         'version' : '2.0'},
-               'cn' : { 'name' : _('Mainland China'),
+               'cn' : { 'name' : _('China Mainland'),
                         'url'  : 'http://cn.creativecommons.org',
                         'version' : '2.5'},
                'co' : { 'name' : _('Colombia'),

@@ -123,8 +123,8 @@
             share = $('share').checked;
             remix = $('remix').checked;
             nc = $('nc').checked;
-            nc_ad = $('nc-ad-allow').checked ? true : false;
-            sa = $('sa').checked;
+            /*nc_ad = $('nc-ad-allow').checked ? true : false;
+            */sa = $('sa').checked;
 			
         } catch (err) {}
 
@@ -171,12 +171,12 @@
         } 
 				
 				// display advertising usage options
-				if (!nc) {
+	/*			if (!nc) {
 					$('nc-ad').style.display = "none";
 				} else {
 				  $('nc-ad').style.display = "block";
 				}
-				
+	*/			
         try
         {
 
@@ -361,10 +361,10 @@
                 '">' + domain + '</a>.' + "\n";
             use_namespace_cc = true;
         }
-				
+			/*	
 				if (nc && nc_ad) {
 					license_text += 'This work may be used in advertising.';
-				}
+				}*/
 				
         } catch (err) {}
 
