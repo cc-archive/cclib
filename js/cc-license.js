@@ -24,7 +24,7 @@
 
 
     // NOTE we have the object freedoms for dealing with freedom style choosing
-    var share, remix, nc, sa;
+    var share, remix, nc, sa, dn;
 
     var reset_jurisdiction_array = false;
 
@@ -41,6 +41,9 @@
     var share_label_orig_class  = '';
     var share_label_orig_color  = '';
 
+		// control visibility of NC/Advertising clauses
+		var show_nc_ad 							= false;
+
 	/**
 	 * Initialise our license codes, and reset the UI
 	 */
@@ -53,9 +56,10 @@
         nc    = false;
         sa    = false;
         nc_ad = true;
+				dn    = false;
         if ( $("share") && $("remix") ) {
-		    $("share").checked = true;
-		    $("remix").checked = true;
+		      $("share").checked = true;
+  		    $("remix").checked = true;
         }
 	}
 	
@@ -68,10 +72,7 @@
 		$("share").checked = false;
 	}
 
-    /**
-     * TODO: Something here is broken! Please fix so we are really
-     * getting the classnames!
-     */
+
     function option_on (option) {
         var label_name = option + '-label';
 
@@ -79,13 +80,18 @@
         
             $(option).disabled = false;
 
-            if ( share_label_orig_class[label_name] )
-                $(label_name).className = share_label_orig_class[label_name];
+            //if ( label_orig_class[label_name] ) 
+               // $(label_name).className = label_orig_class[label_name];
+						//else
+						//	 $(label_name).style.color = "black";
+								
 
-            if ( share_label_orig_color[label_name] )
-                $(label_name).style.color = share_label_orig_color[label_name];
-            else
-                $(label_name).style.color = 'black';
+            //if ( share_label_orig_color[label_name] )
+            //    $(label_name).style.color = share_label_orig_color[label_name];
+            //else
+            //    $(label_name).style.color = 'black';
+						$(label_name).className = "option_on";
+						$(label_name).parentNode.parentNode.style.opacity = 1.0;
         } catch (err) {}
 
     }
@@ -94,14 +100,19 @@
         var label_name = option + '-label';
 
         try {
-            if ( $(label_name).className )
-                share_label_orig_class[label_name] = $(label_name).className;
+          //  if ( $(label_name).className ) {
+								//if (label_orig_class[label_name] != $(label_name).className)
+                //	label_orig_class[label_name] = $(label_name).className;
 
-            share_label_orig_color[label_name] = $(label_name).style.color;
-
+								$(label_name).className = "option_off";
+						//} //else {
+						//		$(label_name).style.color = 'gray';
+						//}
+						
+						$(label_name).parentNode.parentNode.style.opacity = 0.33;
+						
             $(option).disabled = true;
             $(option).checked = false;
-            $(label_name).style.color = 'gray';
 
         } catch (err) {}
     }
@@ -125,6 +136,7 @@
             nc = $('nc').checked;
             /*nc_ad = $('nc-ad-allow').checked ? true : false;
             */sa = $('sa').checked;
+						dn = $('dn').checked;
 			
         } catch (err) {}
 
@@ -134,7 +146,7 @@
             option_on('remix');
             option_on('nc');
             option_on('sa');
-
+						option_on('dn');
         }
         else if ( share && !remix )
         {
@@ -142,6 +154,7 @@
             option_on('remix');
             option_on('nc');
             option_off('sa');
+						option_off('dn');
         }
         else if ( !share && remix )
         {
@@ -149,6 +162,7 @@
             option_on('remix');
             option_off('nc');
             option_off('sa');
+						option_off('dn');
 
             // This next little block checks to see which 
             // jurisdictions support sampling and hides the ones
@@ -161,22 +175,25 @@
             });
 
            reset_jurisdiction_array = true;
-
+				
         } else {
             // This is when nothing is selected
             option_on('share');
             option_on('remix');
             option_off('nc');
             option_off('sa');
+						option_off('dn');
         } 
 				
+			
 				// display advertising usage options
-	/*			if (!nc) {
-					$('nc-ad').style.display = "none";
-				} else {
-				  $('nc-ad').style.display = "block";
+				if (show_nc_ad) {
+					if (!nc) {
+						$('nc-ad').style.display = "none";
+					} else {
+					  $('nc-ad').style.display = "block";
+					}
 				}
-	*/			
         try
         {
 
@@ -361,10 +378,21 @@
                 '">' + domain + '</a>.' + "\n";
             use_namespace_cc = true;
         }
-			/*	
-				if (nc && nc_ad) {
-					license_text += 'This work may be used in advertising.';
-				}*/
+				
+				// non-commercial w/ advertising 
+				if (show_nc_ad) {
+					if (nc) {
+						if (nc_ad) {
+							license_text += 'Using this work in advertising is <span rel="cc:allowed" href="http://creativecommons.org/ns#Advertising">allowed</span>.\n';
+						} else {
+							/* Use accompanied with -- Too legalese sounding, compared to the rest of the text in this block? */
+							license_text += 'Using this work in advertising is <span rel="cc:prohibited" href="http://creativecommons.org/ns#Advertising">prohibited</span>.\n';
+						}
+					}
+				}	
+				if (dn) {
+					license_text += 'The freedoms of this work apply in developing nations only.';
+				}
 				
         } catch (err) {}
 
