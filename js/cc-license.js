@@ -42,7 +42,7 @@
     var share_label_orig_color  = '';
 
     // control visibility of NC/Advertising clauses
-    var show_nc_ad               = false;
+    var show_nc_ad               = true;
 
   /**
    * Initialise our license codes, and reset the UI
@@ -146,7 +146,15 @@
             option_on('remix');
             option_on('nc');
             option_on('sa');
-            option_on('dn');
+            
+            if (nc || sa) 
+            {
+              option_on('dn');
+            }
+            else
+            {
+              option_off('dn');
+            }
         }
         else if ( share && !remix )
         {
@@ -154,7 +162,7 @@
             option_on('remix');
             option_on('nc');
             option_off('sa');
-            option_off('dn');
+            option_on('dn');
         }
         else if ( !share && remix )
         {
@@ -162,7 +170,7 @@
             option_on('remix');
             option_off('nc');
             option_off('sa');
-            option_off('dn');
+            option_on('dn');
 
             // This next little block checks to see which 
             // jurisdictions support sampling and hides the ones
