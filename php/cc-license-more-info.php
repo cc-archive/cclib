@@ -50,10 +50,11 @@ if ( ! function_exists( 'print_more_info' ) )
 }
 ?>
 
-                    <div id="more_info">
 
-                    <p><?= _('Tell us the format of your work') . ':' ;?> 
-
+                    <div class="optional first">
+                    <div class="optional-name"><?= _('Format of your work') ;?></div>
+                    
+                    <div class="optional-content">
                     <select name="info_format" id="info_format" onchange="modify(this)">
                     <option value="-"><?= _('Other') ?></option>
                     <option value="Sound"><?= _('Audio') ?></option>
@@ -62,55 +63,58 @@ if ( ! function_exists( 'print_more_info' ) )
                     <option value="Text"><?= _('Text') ?></option>
                     <option value="InteractiveResource"><?= _('Interactive') ?>
                     </option>
-                    </select></p>
-
-                    <table>
-                    <tr>
-                        <td class="header">
-                            <label for="info_title">
-                            <?= _('Title of Work') ?></label>
-                        </td>
-                        <td>
-                            <input type="text" name="info_title" id="info_title" onchange="modify(this)" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="header">
-                            <label for="info_attribute_to_name">
-                            <?= _('Attribute to Name') ?></label>
-                        </td>
-                        <td>
-                            <input type="text" name="info_attribute_to_name" value="" id="info_attribute_to_name" onchange="modify(this)" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="header">
-                            <label for="info_attribute_to_url">
-                            <?= _('Attribute to URL') ?></label>
-                        </td>
-                        <td>
-                            <input type="text" name="info_attribute_to_url" value="" id="info_attribute_to_url" onchange="modify(this)" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="header">
-                            <label for="info_source_work_url">
-                            <a <?= print_tooltip_js(_('A work another is derived from.'), 'http://a2.creativecommons.org/jargon/source_work')?>><?= _('Source Work') ?></a> <?= _('URL') ?></label>
-                        </td>
-                        <td>
-                            <input type="text" name="info_source_work_url" value="" id="info_source_work_url" onchange="modify(this)" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="header">
-                            <label for="info_more_permissions_url"><?= _('More Permissions URL') ?>&nbsp;</label>
-                        </td>
-                        <td>
-                            <input type="text" name="info_more_permissions_url" value="" id="info_more_permissions_url" onchange="modify(this)" />
-                        </td>
-                    </tr>
-                    </table>
+                    </select></div>
                     </div>
+                    
+                    <div class="optional">
+                      <div class="optional-name">
+                        <label for="info_title">
+                        <?= _('Title of Work') ?></label>
+                      </div>
+                      <div class="optional-content">
+                        <input type="text" name="info_title" id="info_title" onchange="modify(this)" />
+                      </div>
+                    </div>
+                    
+                    <div class="optional">
+                      <div class="optional-name">
+                        <label for="info_attribute_to_name">
+                        <?= _('Attribute to Name') ?></label>
+                      </div>
+                      <div class="optional-content">
+                        <input type="text" name="info_attribute_to_name" value="" id="info_attribute_to_name" onchange="modify(this)" />
+                      </div>
+                    </div>
+
+                    <div class="optional">
+                      <div class="optional-name">
+                        <label for="info_attribute_to_url">
+                        <?= _('Attribute to URL') ?></label>
+                      </div>
+                      <div class="optional-content">
+                        <input type="text" name="info_attribute_to_url" value="" id="info_attribute_to_url" onchange="modify(this)" />
+                      </div>
+                    </div>
+
+                    <div class="optional">
+                      <div class="optional-name">
+                        <label for="info_source_work_url">
+                        <a <?= print_tooltip_js(_('A work another is derived from.'), 'http://a2.creativecommons.org/jargon/source_work')?>><?= _('Source Work') ?></a> <?= _('URL') ?></label>
+                      </div>
+                      <div class="optional-content">
+                        <input type="text" name="info_source_work_url" value="" id="info_source_work_url" onchange="modify(this)" />
+                      </div>
+                    </div>
+
+                    <div class="optional">
+                      <div class="optional-name">
+                        <label for="info_more_permissions_url"><?= _('More Permissions URL') ?>&nbsp;</label>
+                      </div>
+                      <div class="optional-content">
+                        <input type="text" name="info_more_permissions_url" value="" id="info_more_permissions_url" onchange="modify(this)" />
+                      </div>
+                    </div>
+
 
 
 
