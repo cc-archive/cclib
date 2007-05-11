@@ -31,7 +31,8 @@
     var license_array;
 
     var license_root_url        = 'http://creativecommons.org/licenses';
-    var license_version         = '2.5';
+    var license_version         = '4.0'; // For purposes
+    var image_version           = '3.0'; // of demonstration
 
     var warning_text            = '';
 
@@ -155,6 +156,7 @@
             {
               option_off('dn');
             }
+            dn = $('dn').checked;
         }
         else if ( share && !remix )
         {
@@ -399,7 +401,7 @@
           }
         }  
         if (dn) {
-          license_text += 'The freedoms of this work apply in developing nations only.';
+          license_text += 'In developing nations only this work may be used under terms equivalent to <span xmlns:cc="http://creativecommons.org/ns#" rel="cc:permission" href="http://creativecommons.org/ns#DevNations">Attribution 4.0</span>.';
         }
         
         } catch (err) {}
@@ -435,10 +437,11 @@
   
     function build_license_image ()
     {
+        // FIXME: Danger Will Robinson! Image version demo hack.
             try {
                 license_array['img'] = 
                     'http://i.creativecommons.org/l/' + license_array['code'] + 
-                    "/" + license_array['version'] + "/" + 
+                    "/" + ( license_array['generic']  ? image_version : license_array['version'] + "/" ) + "/" + 
                     ( license_array['generic']  ? '' : $F('jurisdiction') + 
                     "/" ) + '88x31.png';
             } catch (err) {}

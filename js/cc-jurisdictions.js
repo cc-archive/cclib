@@ -27,7 +27,8 @@
                         'name' : _('Unported'),
                         'url'  : 'http://creativecommons.org',
                         'generic' : true,
-                        'version' : '3.0',
+                        // removed for demo purposes
+                        //'version' : '3.0',
                         'sampling' : '1.0' },
                'ar' : { 'name' : _('Argentina'),
                         'url'  : 'http://creativecommons.org/worldwide/ar/',
