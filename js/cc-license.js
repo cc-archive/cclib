@@ -24,15 +24,14 @@
 
 
     // NOTE we have the object freedoms for dealing with freedom style choosing
-    var share, remix, nc, sa, dn;
+    var share, remix, nc, sa;
 
     var reset_jurisdiction_array = false;
 
     var license_array;
 
     var license_root_url        = 'http://creativecommons.org/licenses';
-    var license_version         = '4.0'; // For purposes
-    var image_version           = '3.0'; // of demonstration
+    var license_version         = '2.5';
 
     var warning_text            = '';
 
@@ -42,38 +41,37 @@
     var share_label_orig_class  = '';
     var share_label_orig_color  = '';
 
-    // control visibility of NC/Advertising clauses
-    var show_nc_ad               = true;
-
-  /**
-   * Initialise our license codes, and reset the UI
-   */
-  function init() {
-    /* default: by */
-  
+	/**
+	 * Initialise our license codes, and reset the UI
+	 */
+	function init() {
+		/* default: by */
+	
         
         share = true;
         remix = true;
         nc    = false;
         sa    = false;
         nc_ad = true;
-        dn    = false;
         if ( $("share") && $("remix") ) {
-          $("share").checked = true;
-          $("remix").checked = true;
+		    $("share").checked = true;
+		    $("remix").checked = true;
         }
-  }
-  
-  /**
-   * Disable everything related to ShareAlike
-   */
-  function no_share() {
-    sa = false;
-    $("share").disabled = true;
-    $("share").checked = false;
-  }
+	}
+	
+	/**
+	 * Disable everything related to ShareAlike
+	 */
+	function no_share() {
+		sa = false;
+		$("share").disabled = true;
+		$("share").checked = false;
+	}
 
-
+    /**
+     * TODO: Something here is broken! Please fix so we are really
+     * getting the classnames!
+     */
     function option_on (option) {
         var label_name = option + '-label';
 
@@ -81,18 +79,13 @@
         
             $(option).disabled = false;
 
-            //if ( label_orig_class[label_name] ) 
-               // $(label_name).className = label_orig_class[label_name];
-            //else
-            //   $(label_name).style.color = "black";
-                
+            if ( share_label_orig_class[label_name] )
+                $(label_name).className = share_label_orig_class[label_name];
 
-            //if ( share_label_orig_color[label_name] )
-            //    $(label_name).style.color = share_label_orig_color[label_name];
-            //else
-            //    $(label_name).style.color = 'black';
-            $(label_name).className = "option_on";
-            $(label_name).parentNode.parentNode.style.opacity = 1.0;
+            if ( share_label_orig_color[label_name] )
+                $(label_name).style.color = share_label_orig_color[label_name];
+            else
+                $(label_name).style.color = 'black';
         } catch (err) {}
 
     }
@@ -101,28 +94,23 @@
         var label_name = option + '-label';
 
         try {
-          //  if ( $(label_name).className ) {
-                //if (label_orig_class[label_name] != $(label_name).className)
-                //  label_orig_class[label_name] = $(label_name).className;
+            if ( $(label_name).className )
+                share_label_orig_class[label_name] = $(label_name).className;
 
-                $(label_name).className = "option_off";
-            //} //else {
-            //    $(label_name).style.color = 'gray';
-            //}
-            
-            $(label_name).parentNode.parentNode.style.opacity = 0.33;
-            
+            share_label_orig_color[label_name] = $(label_name).style.color;
+
             $(option).disabled = true;
             $(option).checked = false;
+            $(label_name).style.color = 'gray';
 
         } catch (err) {}
     }
-  
-  /**
-   * Main logic
-   * Checks what the user pressed, sets licensing options based on it.
-   */
-  function modify(obj) {
+	
+	/**
+	 * Main logic
+	 * Checks what the user pressed, sets licensing options based on it.
+	 */
+	function modify(obj) {
         warning_text = '';
 
 
@@ -135,10 +123,9 @@
             share = $('share').checked;
             remix = $('remix').checked;
             nc = $('nc').checked;
-            /*nc_ad = $('nc-ad-allow').checked ? true : false;
-            */sa = $('sa').checked;
-            dn = $('dn').checked;
-      
+            nc_ad = $('nc-ad-allow').checked ? true : false;
+            sa = $('sa').checked;
+			
         } catch (err) {}
 
         if ( share && remix )
@@ -147,16 +134,7 @@
             option_on('remix');
             option_on('nc');
             option_on('sa');
-            
-            if (nc || sa) 
-            {
-              option_on('dn');
-            }
-            else
-            {
-              option_off('dn');
-            }
-            dn = $('dn').checked;
+
         }
         else if ( share && !remix )
         {
@@ -164,7 +142,6 @@
             option_on('remix');
             option_on('nc');
             option_off('sa');
-            option_on('dn');
         }
         else if ( !share && remix )
         {
@@ -172,7 +149,6 @@
             option_on('remix');
             option_off('nc');
             option_off('sa');
-            option_on('dn');
 
             // This next little block checks to see which 
             // jurisdictions support sampling and hides the ones
@@ -185,25 +161,22 @@
             });
 
            reset_jurisdiction_array = true;
-        
+
         } else {
             // This is when nothing is selected
             option_on('share');
             option_on('remix');
             option_off('nc');
             option_off('sa');
-            option_off('dn');
         } 
-        
-      
-        // display advertising usage options
-        if (show_nc_ad) {
-          if (!nc) {
-            $('nc-ad').style.display = "none";
-          } else {
-            $('nc-ad').style.display = "block";
-          }
-        }
+				
+				// display advertising usage options
+				if (!nc) {
+					$('nc-ad').style.display = "none";
+				} else {
+				  $('nc-ad').style.display = "block";
+				}
+				
         try
         {
 
@@ -225,7 +198,7 @@
 
         // in this hacked version, it just calls update_hack direct
         build_license_details();
-  }
+	}
 
     /**
      * This resets the jurisdiction selection menu options' styles
@@ -262,31 +235,31 @@
     {
         return ("<!-- " + str + "-->");
     }
-  
-  /**
-   * Retreive the selected style option
-   */
-  function style() {
-    var styles = document.getElementsByName('style');
-  
-    for (i = 0; i < styles.length; i++) {
-      if (styles[i].checked) {
-        return styles[i].value + ".png";
-      }
-    }
-    
-    /* we shouldn't reach here... */
-    return "error";
-  }
-  
-  function position() {
-    var pos = document.getElementsByName('pos');
-    
-    for (i = 0; i < pos.length; i++) {
-      if ((pos[i].value == "floating") && (pos[i].checked)) return "position: fixed;";
-    }
-    return "margin-top:20px;";
-  }
+	
+	/**
+	 * Retreive the selected style option
+	 */
+	function style() {
+		var styles = document.getElementsByName('style');
+	
+		for (i = 0; i < styles.length; i++) {
+			if (styles[i].checked) {
+				return styles[i].value + ".png";
+			}
+		}
+		
+		/* we shouldn't reach here... */
+		return "error";
+	}
+	
+	function position() {
+		var pos = document.getElementsByName('pos');
+		
+		for (i = 0; i < pos.length; i++) {
+			if ((pos[i].value == "floating") && (pos[i].checked)) return "position: fixed;";
+		}
+		return "margin-top:20px;";
+	}
 
     function build_license_url ()
     {
@@ -388,22 +361,11 @@
                 '">' + domain + '</a>.' + "\n";
             use_namespace_cc = true;
         }
-        
-        // non-commercial w/ advertising 
-        if (show_nc_ad) {
-          if (nc) {
-            if (nc_ad) {
-              license_text += 'Using this work in advertising is <span rel="cc:allowed" href="http://creativecommons.org/ns#Advertising">allowed</span>.\n';
-            } else {
-              /* Use accompanied with -- Too legalese sounding, compared to the rest of the text in this block? */
-              license_text += 'Using this work in advertising is <span rel="cc:prohibited" href="http://creativecommons.org/ns#Advertising">prohibited</span>.\n';
-            }
-          }
-        }  
-        if (dn) {
-          license_text += 'In developing nations only this work may be used under terms equivalent to <span xmlns:cc="http://creativecommons.org/ns#" rel="cc:permission" href="http://creativecommons.org/ns#DevNations">Attribution 4.0</span>.';
-        }
-        
+				
+				if (nc && nc_ad) {
+					license_text += 'This work may be used in advertising.';
+				}
+				
         } catch (err) {}
 
         // The main bit of text including or not, jurisdiction love
@@ -434,14 +396,13 @@
         // set the array container here
         license_array['text'] = license_text;
     }
-  
+	
     function build_license_image ()
     {
-        // FIXME: Danger Will Robinson! Image version demo hack.
             try {
                 license_array['img'] = 
                     'http://i.creativecommons.org/l/' + license_array['code'] + 
-                    "/" + ( license_array['generic']  ? image_version : license_array['version'] + "/" ) + "/" + 
+                    "/" + license_array['version'] + "/" + 
                     ( license_array['generic']  ? '' : $F('jurisdiction') + 
                     "/" ) + '88x31.png';
             } catch (err) {}
@@ -561,7 +522,7 @@
         license_array['jurisdiction'] = '';
         license_array['generic'] = '';
      */
-  function build_license_array () 
+	function build_license_array () 
     {
         // the following is global and we want to reset it definitely...
         license_array = new Array();
@@ -599,12 +560,12 @@
      */
     function output_license_html ()
     {
-    var output = get_comment_code() + '<a rel="license" href="' + license_array['url'] + '"><img alt="Creative Commons License" border="0" src="' + license_array['img'] + '" class="cc-button"/></a><div class="cc-info">' + license_array['text'] + '</div>';
+		var output = get_comment_code() + '<a rel="license" href="' + license_array['url'] + '"><img alt="Creative Commons License" border="0" src="' + license_array['img'] + '" class="cc-button"/></a><div class="cc-info">' + license_array['text'] + '</div>';
 
         try {
             if ( $F('using_myspace') )
             {
-            output = '<style type="text/css">body { padding-bottom: 50px;} div.cc-bar { width:100%; height: 40px; ' + position() + ' bottom: 0px; left: 0px; background:url(http://mirrors.creativecommons.org/myspace/'+ style() +') repeat-x; } img.cc-button { float: left; border:0; margin: 5px 0 0 15px; } div.cc-info { float: right; padding: 0.3%; width: 400px; margin: auto; vertical-align: middle; font-size: 90%;} </style> <div class="cc-bar">' + output + '</div>';
+		        output = '<style type="text/css">body { padding-bottom: 50px;} div.cc-bar { width:100%; height: 40px; ' + position() + ' bottom: 0px; left: 0px; background:url(http://mirrors.creativecommons.org/myspace/'+ style() +') repeat-x; } img.cc-button { float: left; border:0; margin: 5px 0 0 15px; } div.cc-info { float: right; padding: 0.3%; width: 400px; margin: auto; vertical-align: middle; font-size: 90%;} </style> <div class="cc-bar">' + output + '</div>';
             } else if ( $F('using_youtube') ) {
                 output = license_array['url'];
             }
@@ -613,13 +574,13 @@
 
         insert_html( warning_text + output, 'license_example');
         return output;
-  }
+	}
 
-  /**
-   * Checks what options the user has set and spits out license code based on the values
+	/**
+	 * Checks what options the user has set and spits out license code based on the values
      * There are several global variables which need to be set to get this
      * update to work right.
-   */
+	 */
     function update ()
     {
         // warning_text is a global variable as well as license_array.
@@ -628,7 +589,7 @@
         // our insert_html function also does some modifications on 
         var output = output_license_html();
         if ( $('result') )
-        $('result').value = output;
+		    $('result').value = output;
     }
 
     function update_hack(code, version, full_name)
@@ -648,7 +609,7 @@
         // our insert_html function also does some modifications on 
         var output = output_license_html();
         if ( $('result') )
-        $('result').value = output;
+		    $('result').value = output;
 
     }
 

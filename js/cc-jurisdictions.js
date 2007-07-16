@@ -27,8 +27,7 @@
                         'name' : _('Unported'),
                         'url'  : 'http://creativecommons.org',
                         'generic' : true,
-                        // removed for demo purposes
-                        //'version' : '3.0',
+                        'version' : '3.0',
                         'sampling' : '1.0' },
                'ar' : { 'name' : _('Argentina'),
                         'url'  : 'http://creativecommons.org/worldwide/ar/',
@@ -55,7 +54,7 @@
                'cl' : { 'name' : _('Chile'),
                         'url'  : 'http://creativecommons.cl',
                         'version' : '2.0'},
-               'cn' : { 'name' : _('China Mainland'),
+               'cn' : { 'name' : _('Mainland China'),
                         'url'  : 'http://cn.creativecommons.org',
                         'version' : '2.5'},
                'co' : { 'name' : _('Colombia'),
