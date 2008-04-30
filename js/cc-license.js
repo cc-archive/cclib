@@ -31,7 +31,7 @@
     var license_array;
 
     var license_root_url        = 'http://creativecommons.org/licenses';
-    var license_version         = '4.0'; // For purposes
+    var license_version         = '3.0'; // For purposes
     var image_version           = '3.0'; // of demonstration
 
     var warning_text            = '';
@@ -43,7 +43,7 @@
     var share_label_orig_color  = '';
 
     // control visibility of NC/Advertising clauses
-    var show_nc_ad               = true;
+    var show_nc_ad               = false;
 
   /**
    * Initialise our license codes, and reset the UI
